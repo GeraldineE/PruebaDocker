@@ -1,0 +1,32 @@
+FROM python:3.7
+LABEL "MAINTAINER"="GeraldineEchavarria"
+
+#Enviroment variables
+ENV USER=prueba
+ENV HOME_DIR=home/proyecto_prueba
+# ENV ENTRY_DIR=entry_folder
+# ENV LOGS_DIR=logs
+ENV SHELL=/bin/bash
+ENV PYTHONUNBUFFERED 1
+
+# Install packages necesary
+RUN pip install --upgrade pip
+RUN mkdir /tmp/requirements
+COPY requirements.txt /tmp/requirements
+RUN pip install -r /tmp/requirements/requirements.txt
+
+#ADD ./app /$HOME_DIR/
+
+#Entry-point
+# RUN mkdir /$ENTRY_DIR
+# COPY docker_entrypoint.sh /$ENTRY_DIR
+
+# RUN mkdir /$LOGS_DIR
+
+#Set up user not root
+RUN useradd -ms $SHELL $USER
+RUN mkdir -p /$HOME_DIR
+RUN chown -R $USER:$USER /$HOME_DIR
+
+USER $USER
+WORKDIR /$HOME_DIR/

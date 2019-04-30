@@ -1,0 +1,33 @@
+version: '3'
+services:
+  prueba_backend:
+    container_name: "PruebaBackend"
+    build:
+      context: ./proyecto_prueba
+    depends_on:
+      - prueba_postgres
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./proyecto_prueba/apps:/home/proyecto_prueba"
+    env_file:
+      - ./proyecto_prueba/envs/global.env
+      #- envs/dev_backend.env
+      - ./proyecto_prueba/envs/dev_postgres_connection.env
+    command: python3 ./manage.py runserver 0.0.0.0:8000
+    #command: /bin/bash -c "sleep 150000;"
+    restart: unless-stopped
+
+  prueba_postgres:
+    container_name: "PruebaPostgres"
+    image: postgres:10.0
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./dbdata:/var/lib/postgresql/data"
+    env_file:
+      - ./proyecto_prueba/envs/global.env
+      - ./proyecto_prueba/envs/dev_postgres_connection.env
+    restart: unless-stopped
