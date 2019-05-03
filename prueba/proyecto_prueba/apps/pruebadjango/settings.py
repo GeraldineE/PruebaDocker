@@ -29,6 +29,11 @@ ALLOWED_HOSTS = ['0.0.0.0']
 
 
 # Application definition
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_WITHELIST = (
+    'localhost:8080'
+)
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -38,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'book',
+    'rest_framework',
+    'corsheaders',
  
 ]
 
@@ -49,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'pruebadjango.urls'
